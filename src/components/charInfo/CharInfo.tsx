@@ -1,5 +1,5 @@
 import './charInfo.scss';
-import thor from '../../resources/img/thor.jpeg';
+import thor from '../../assets/img/jpg/thor.jpeg';
 
 const CharInfo = () => {
     return (

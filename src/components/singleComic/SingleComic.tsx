@@ -1,5 +1,5 @@
 import './singleComic.scss';
-import xMen from '../../resources/img/x-men.png';
+import xMen from '../../assets/img/png/x-men.png';
 
 const SingleComic = () => {
     return (

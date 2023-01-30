@@ -1,6 +1,6 @@
 import './comicsList.scss';
-import uw from '../../resources/img/UW.png';
-import xMen from '../../resources/img/x-men.png';
+import uw from '../../assets/img/png/UW.png';
+import xMen from '../../assets/img/png/x-men.png';
 
 const ComicsList = () => {
     return (
