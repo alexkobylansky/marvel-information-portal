@@ -1,4 +1,4 @@
-declare interface ICharacter {
+declare interface ICharacterResponse {
   name: string;
   description: string;
   thumbnail: {
@@ -15,4 +15,21 @@ declare interface ICharacter {
       type: string;
     }
   ];
+}
+
+declare interface ICharacter {
+  name: string;
+  description: string;
+  thumbnail: string;
+  homepage: string;
+  wiki: string;
+}
+
+declare interface ViewProps {
+  name: string;
+  description: string;
+  thumbnail: string;
+  homepage: string;
+  wiki: string;
+  imageNotFound: boolean
 }
