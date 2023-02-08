@@ -1,7 +1,7 @@
 import './charInfo.scss';
 import thor from '../../assets/img/jpg/thor.jpeg';
 
-const CharInfo = () => {
+export const CharInfo = () => {
     return (
         <div className="char__info">
             <div className="char__basics">
@@ -57,5 +57,3 @@ const CharInfo = () => {
         </div>
     )
 }
-
-export default CharInfo;

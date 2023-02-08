@@ -1,11 +1,11 @@
-import AppHeader from "../appHeader/AppHeader";
+import {AppHeader} from "../appHeader/AppHeader";
 import {RandomChar} from "../randomChar/RandomChar";
-import CharList from "../charList/CharList";
-import CharInfo from "../charInfo/CharInfo";
+import {CharList} from "../charList/CharList";
+import {CharInfo} from "../charInfo/CharInfo";
 
 import decoration from "../../assets/img/png/vision.png";
 
-const App = () => {
+export const App = () => {
     return (
         <div className="app">
             <AppHeader/>
@@ -20,5 +20,3 @@ const App = () => {
         </div>
     )
 }
-
-export default App;
