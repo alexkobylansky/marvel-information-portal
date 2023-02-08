@@ -12,13 +12,18 @@ export const getAllCharacters = async (offset: number) => {
   const response = await getResource(`${url}/characters?limit=9&offset=${offset}&apikey=${API_KEY}`);
   if (response.ok) {
     const data = await response.json();
-    console.log("data: ", data.data);
-    return data.data.results.map((character: ICharacterResponse) => _transformCharacter(character));
+    return {
+      data: data.data.results.map((character: ICharacterResponse) => _transformCharacter(character)),
+      total: data.data.total,
+      offset: data.data.offset,
+      limit: data.data.limit
+    }
   } else return null
 };
 
-export const _transformCharacter = (character: ICharacterResponse) => {
+export const _transformCharacter = (character: ICharacterResponse): ICharacter => {
   return {
+    id: character.id,
     name: character.name,
     description: character.description,
     thumbnail: `${character.thumbnail.path}.${character.thumbnail.extension}`,
