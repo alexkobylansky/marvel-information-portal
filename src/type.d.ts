@@ -1,4 +1,5 @@
 declare interface ICharacterResponse {
+  id: number;
   name: string;
   description: string;
   thumbnail: {
@@ -18,6 +19,7 @@ declare interface ICharacterResponse {
 }
 
 declare interface ICharacter {
+  id: number;
   name: string;
   description: string;
   thumbnail: string;
@@ -25,11 +27,9 @@ declare interface ICharacter {
   wiki: string;
 }
 
-declare interface ViewProps {
-  name: string;
-  description: string;
-  thumbnail: string;
-  homepage: string;
-  wiki: string;
-  imageNotFound: boolean
+declare interface ICharacterList {
+  data: ICharacter[];
+  limit: number;
+  offset: number;
+  total: number;
 }
