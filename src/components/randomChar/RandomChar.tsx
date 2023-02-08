@@ -7,13 +7,7 @@ import mjolnir from "../../assets/img/png/mjolnir.png";
 
 export const RandomChar: React.FC = () => {
   const [loading, setLoading] = useState(true);
-  const [character, setCharacter] = useState<ICharacter>({
-    name: "",
-    description: "",
-    thumbnail: "",
-    homepage: "",
-    wiki: ""
-  });
+  const [character, setCharacter] = useState<ICharacter>({} as ICharacter);
   const [imageNotFound, setImageNotFound] = useState(false);
 
   const updateChar = async () => {
@@ -32,7 +26,7 @@ export const RandomChar: React.FC = () => {
   };
 
   useEffect(() => {
-      if (character.thumbnail.includes("image_not_available")) {
+      if (character?.thumbnail?.includes("image_not_available")) {
       setImageNotFound(true);
     } else setImageNotFound(false);
   }, [character]);
@@ -42,7 +36,7 @@ export const RandomChar: React.FC = () => {
   }, []);
 
   const spinner = loading ? <Spinner/> : null;
-  const content = !loading ? <View name={character.name}
+  const content = (!loading && character.name) ? <View name={character.name}
                                    description={character.description}
                                    thumbnail={character.thumbnail}
                                    homepage={character.homepage}
@@ -68,6 +62,15 @@ export const RandomChar: React.FC = () => {
       </div>
     </div>
   );
+}
+
+interface ViewProps {
+  name: string;
+  description: string;
+  thumbnail: string;
+  homepage: string;
+  wiki: string;
+  imageNotFound: boolean
 }
 
 const View: React.FC<ViewProps> = ({thumbnail, name, description, homepage, wiki, imageNotFound}) => {
