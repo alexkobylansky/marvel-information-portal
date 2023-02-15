@@ -16,6 +16,16 @@ declare interface ICharacterResponse {
       type: string;
     }
   ];
+  comics: {
+    available: number;
+    collectionURI: string;
+    items: [
+      {
+        resourceURI: string;
+        name: string;
+      }
+    ];
+  }
 }
 
 declare interface ICharacter {
@@ -25,6 +35,12 @@ declare interface ICharacter {
   thumbnail: string;
   homepage: string;
   wiki: string;
+  comics: [
+    {
+      resourceURI: string;
+      name: string;
+    }
+  ];
 }
 
 declare interface ICharacterList {
