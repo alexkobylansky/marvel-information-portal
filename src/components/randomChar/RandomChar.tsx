@@ -3,7 +3,6 @@ import "./randomChar.scss";
 import {Spinner} from "../spinner/Spinner";
 import {getCharacter} from "../../services/MarvelService";
 import mjolnir from "../../assets/img/png/mjolnir.png";
-// import thor from "../../assets/img/jpg/thor.jpeg";
 
 export const RandomChar: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -36,12 +35,7 @@ export const RandomChar: React.FC = () => {
   }, []);
 
   const spinner = loading ? <Spinner/> : null;
-  const content = (!loading && character.name) ? <View name={character.name}
-                                   description={character.description}
-                                   thumbnail={character.thumbnail}
-                                   homepage={character.homepage}
-                                   wiki={character.wiki}
-                                   imageNotFound={imageNotFound}/> : null;
+  const content = (!loading && character.id) ? <View character={character} imageNotFound={imageNotFound}/> : null;
 
   return (
     <div className="randomchar">
@@ -65,15 +59,12 @@ export const RandomChar: React.FC = () => {
 }
 
 interface ViewProps {
-  name: string;
-  description: string;
-  thumbnail: string;
-  homepage: string;
-  wiki: string;
-  imageNotFound: boolean
+  character: ICharacter;
+  imageNotFound: boolean;
 }
 
-const View: React.FC<ViewProps> = ({thumbnail, name, description, homepage, wiki, imageNotFound}) => {
+const View: React.FC<ViewProps> = ({character, imageNotFound}) => {
+  const {thumbnail, name, description, homepage, wiki} = character;
 
   return (
     <div className="randomchar__block">
