@@ -5,6 +5,7 @@ import {getCharacter} from "../../services/MarvelService";
 import mjolnir from "../../assets/img/png/mjolnir.png";
 
 export const RandomChar: React.FC = () => {
+  const firstInit = useRef(false);
   const [loading, setLoading] = useState(true);
   const [character, setCharacter] = useState<ICharacter>({} as ICharacter);
   const [imageNotFound, setImageNotFound] = useState(false);
@@ -31,7 +32,10 @@ export const RandomChar: React.FC = () => {
   }, [character]);
 
   useEffect(() => {
-    updateChar();
+    if (!firstInit.current) {
+      updateChar();
+    }
+    firstInit.current = true;
   }, []);
 
   const spinner = loading ? <Spinner/> : null;
@@ -71,7 +75,6 @@ const View: React.FC<ViewProps> = ({character, imageNotFound}) => {
       <img src={thumbnail} alt="Random character" className={`randomchar__img ${imageNotFound ? "notFound" : ""}`}/>
       <div className="randomchar__info">
         <p className="randomchar__name">{name}</p>
-        {/*TODO Dots must be added at the end of the description*/}
         <p className="randomchar__descr" >{!description ? "There is no description for this character." : description}</p>
         <div className="randomchar__btns">
           <a href={homepage} className="button button__main">

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import './charList.scss';
 import {Spinner} from "../spinner/Spinner";
 import {getAllCharacters} from "../../services/MarvelService";
@@ -11,6 +11,7 @@ interface CharListProps {
 }
 
 export const CharList: React.FC<CharListProps> = ({onCharSelected, selectedChar}) => {
+  const firstInit = useRef(false);
   const [loading, setLoading] = useState(true);
   const [loadMore, setLoadMore] = useState(false);
   const [characterList, setCharacterList] = useState({} as ICharacterList);
@@ -27,7 +28,10 @@ export const CharList: React.FC<CharListProps> = ({onCharSelected, selectedChar}
   };
 
   useEffect(() => {
-    getCharacters()
+    if (!firstInit.current) {
+      getCharacters()
+    }
+    firstInit.current = true;
   }, []);
 
   const loadMoreFunc = async () => {
