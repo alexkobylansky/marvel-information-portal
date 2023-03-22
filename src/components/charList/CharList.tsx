@@ -2,8 +2,6 @@ import React, {useEffect, useState, useRef} from "react";
 import './charList.scss';
 import {Spinner} from "../spinner/Spinner";
 import {getAllCharacters} from "../../services/MarvelService";
-import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
 
 interface CharListProps {
   onCharSelected: (id: number) => void;
@@ -13,18 +11,20 @@ interface CharListProps {
 export const CharList: React.FC<CharListProps> = ({onCharSelected, selectedChar}) => {
   const firstInit = useRef(false);
   const [loading, setLoading] = useState(true);
-  const [loadMore, setLoadMore] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [characterList, setCharacterList] = useState({} as ICharacterList);
-  const [offset, setOffset] = useState(9);
+  const [offset, setOffset] = useState(0);
+  const [charEnded, setCharEnded] = useState<boolean>(false);
 
   const getCharacters = async () => {
-    await getAllCharacters(0)
+    await getAllCharacters(offset)
       .then(data => {
         if (data) {
           setCharacterList(data);
-          setLoading(false)
+          setLoading(false);
         }
-      })
+      });
+    setOffset(prevState => prevState + 9);
   };
 
   useEffect(() => {
@@ -34,35 +34,41 @@ export const CharList: React.FC<CharListProps> = ({onCharSelected, selectedChar}
     firstInit.current = true;
   }, []);
 
-  const loadMoreFunc = async () => {
-    setLoadMore(true);
+  const loadMore = async () => {
+    setFetching(true);
     setOffset(prevState => prevState + 9);
     await getAllCharacters(offset)
       .then(data => {
         if (data) {
+          if (data.data.length < 9) {
+            setCharEnded(true);
+          }
           setCharacterList((prevState: ICharacterList) => {
             return {
               ...prevState,
               data: [...prevState.data, ...data.data]
             }
           })
-          setLoadMore(false);
+          setFetching(false);
         }
       })
       .catch(error => console.log(error))
   };
 
-  const spinner = loading ? <Spinner/> : null;
-  const content = (!loading && characterList.data) ? characterList.data.map((item) => <CharItem key={item.id} onCharSelected={() => onCharSelected(item.id)} thumbnail={item.thumbnail} name={item.name} selected={selectedChar === item.id}/>) : null
+  const content = (!loading && characterList.data) ? characterList.data.map((item) => <CharItem key={item.id}
+                                                                                                onCharSelected={() => onCharSelected(item.id)}
+                                                                                                thumbnail={item.thumbnail}
+                                                                                                name={item.name}
+                                                                                                selected={selectedChar === item.id}/>) : null
 
   return (
     <div className="char__list">
-      {spinner}
+      {loading && <Spinner/>}
       <ul className="char__grid">
         {content}
       </ul>
-      {loadMore && <Spinner/>}
-      <button type="button" className="button button__main button__long" onClick={loadMoreFunc}>
+      {fetching && <Spinner/>}
+      <button type="button" disabled={fetching} style={{"display": charEnded ? "none" : "block"}} className="button button__main button__long" onClick={loadMore}>
         <div className="inner">load more</div>
       </button>
     </div>
